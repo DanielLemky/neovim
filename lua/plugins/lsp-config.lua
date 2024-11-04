@@ -21,9 +21,6 @@ return {
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local lspconfig = require("lspconfig")
-      lspconfig.ruby_lsp.setup({
-        capabilities = capabilities
-      })
 
       vim.keymap.set("n", "G", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Definition" })
