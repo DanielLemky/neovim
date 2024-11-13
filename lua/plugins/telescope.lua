@@ -27,25 +27,6 @@ return {
                     },
                 },
             },
-            pickers = {
-                find_files = {
-                    hidden = true,
-                    theme = "dropdown",
-                },
-                live_grep = {
-                    hidden = true,
-                    theme = "dropdown",
-                },
-                grep_string = {
-                    hidden = true,
-                    theme = "dropdown",
-                },
-                git_files = {
-                    hidden = true,
-                    theme = "dropdown",
-                },
-
-            },
             extensions = {
                 ["ui-select"] = {
                     require("telescope.themes").get_dropdown({}),
@@ -80,46 +61,90 @@ return {
           return git_root
       end
 
-      -- Custom live_grep function to search in git root
-      local function live_grep_git_root()
-          local git_root = find_git_root()
-          if git_root then
-              require('telescope.builtin').live_grep {
-                  search_dirs = { git_root },
-              }
-          end
-      end
+
+-- Define the dropdown theme configuration once
+local dropdown_theme = require('telescope.themes').get_dropdown({
+  previewer = true,
+  layout_config = {
+    width = 0.8,
+  }
+})
+
+-- Modify the live_grep_git_root function to use the dropdown theme
+local function live_grep_git_root()
+  local git_root = find_git_root()
+  if git_root then
+    require('telescope.builtin').live_grep(vim.tbl_extend("force",
+      dropdown_theme,
+      { search_dirs = { git_root } }
+    ))
+  end
+end
 
       vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
-      -- See `:help telescope.builtin`
+-- Modified telescope_live_grep_open_files function
+local function telescope_live_grep_open_files()
+  require('telescope.builtin').live_grep(vim.tbl_extend("force",
+    dropdown_theme,
+    {
+      grep_open_files = true,
+      prompt_title = 'Live Grep in Open Files',
+    }
+  ))
+end
 
-      local function telescope_live_grep_open_files()
-          require('telescope.builtin').live_grep {
-              grep_open_files = true,
-              prompt_title = 'Live Grep in Open Files',
-          }
-      end
-      vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-      vim.keymap.set('n', '<leader>fd', require('telescope.builtin').find_files, { desc = 'Search Files Working Directory' })
-      vim.keymap.set('n', '<leader>ff', require('telescope.builtin').git_files, { desc = 'Search Git Files' })
+-- All keymappings with consistent dropdown theme
+vim.keymap.set('n', '<leader><leader>', function()
+  require('telescope.builtin').buffers(dropdown_theme)
+end, { desc = '[ ] Find existing buffers' })
 
-      vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = 'Search [/] in Open Files' })
-      vim.keymap.set('n', '<leader>sT', require('telescope.builtin').builtin, { desc = 'Search Select Telescope' })
-      vim.keymap.set('n', '<leader>sH', require('telescope.builtin').help_tags, { desc = 'Search Help' })
-      vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = 'Search current Word' })
-      vim.keymap.set('n', '<leader>sd', require('telescope.builtin').live_grep, { desc = 'Search Working Directory' })
-      vim.keymap.set('n', '<leader>ss', ':LiveGrepGitRoot<cr>', { desc = 'Search Git Root' })
-      vim.keymap.set('n', '<leader>sD', require('telescope.builtin').diagnostics, { desc = 'Search Diagnostics' })
-      vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 'Search Resume' })
-      vim.keymap.set('n', '<leader>/', function()
-          -- You can pass additional configuration to telescope to change theme, layout, etc.
-          require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-              -- winblend = 10,
-              previewer = false,
-          })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+vim.keymap.set('n', '<leader>fo', function()
+  require('telescope.builtin').oldfiles(dropdown_theme)
+end, { desc = '[?] Find recently opened files' })
+
+vim.keymap.set('n', '<leader>fd', function()
+  require('telescope.builtin').find_files(dropdown_theme)
+end, { desc = 'Search Files Working Directory' })
+
+vim.keymap.set('n', '<leader>ff', function()
+  require('telescope.builtin').git_files(dropdown_theme)
+end, { desc = 'Search Git Files' })
+
+vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = 'Search [/] in Open Files' })
+
+vim.keymap.set('n', '<leader>sT', function()
+  require('telescope.builtin').builtin(dropdown_theme)
+end, { desc = 'Search Select Telescope' })
+
+vim.keymap.set('n', '<leader>sH', function()
+  require('telescope.builtin').help_tags(dropdown_theme)
+end, { desc = 'Search Help' })
+
+vim.keymap.set('n', '<leader>sw', function()
+  require('telescope.builtin').grep_string(dropdown_theme)
+end, { desc = 'Search current Word' })
+
+vim.keymap.set('n', '<leader>sd', function()
+  require('telescope.builtin').live_grep(dropdown_theme)
+end, { desc = 'Search Working Directory' })
+
+vim.keymap.set('n', '<leader>ss', live_grep_git_root, { desc = 'Search Git Root' })
+
+vim.keymap.set('n', '<leader>sD', function()
+  require('telescope.builtin').diagnostics(dropdown_theme)
+end, { desc = 'Search Diagnostics' })
+
+vim.keymap.set('n', '<leader>sr', function()
+  require('telescope.builtin').resume(dropdown_theme)
+end, { desc = 'Search Resume' })
+
+vim.keymap.set('n', '<leader>/', function()
+  require('telescope.builtin').current_buffer_fuzzy_find(dropdown_theme)
+end, { desc = '[/] Fuzzily search in current buffer' })
+
+
+
     end,
   },
 }
