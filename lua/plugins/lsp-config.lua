@@ -24,6 +24,10 @@ return {
       lspconfig.ruby_lsp.setup({
         capabilities = capabilities
       })
+      lspconfig.rubocop.setup({
+        capabilities = capabilities
+      })
+
 
       vim.keymap.set("n", "G", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Definition" })
