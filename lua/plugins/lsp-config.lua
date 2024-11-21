@@ -21,7 +21,7 @@ return {
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local lspconfig = require("lspconfig")
-      lspconfig.ruby_lsp.setup({
+      lspconfig.solargraph.setup({
         capabilities = capabilities
       })
       lspconfig.rubocop.setup({
