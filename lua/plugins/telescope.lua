@@ -4,7 +4,7 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
-    branch = '0.1.x',
+    tag = "0.1.8",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -12,9 +12,9 @@ return {
         -- NOTE: If you are having trouble with this installation,
         --       refer to the README for telescope-fzf-native for more instructions.
         build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
+        -- cond = function()
+        --   return vim.fn.executable 'make' == 1
+        -- end,
       },
     },
     config = function()
@@ -28,6 +28,7 @@ return {
           },
         },
         extensions = {
+          fzf = {},
           ["ui-select"] = {
             require("telescope.themes").get_dropdown({}),
           },
@@ -35,7 +36,7 @@ return {
       })
 
       -- Enable telescope fzf native, if installed
-      pcall(require('telescope').load_extension, 'fzf')
+      require('telescope').load_extension('fzf')
 
       -- Telescope live_grep in git root
       -- Function to find the git root directory based on the current buffer's path
@@ -112,6 +113,7 @@ return {
       end, { desc = 'Search Files Working Directory' })
 
       vim.keymap.set('n', '<leader>ff', function()
+        print(vim.inspect(require('telescope').extensions))
         require('telescope.builtin').git_files(dropdown_theme)
       end, { desc = 'Search Git Files' })
 
