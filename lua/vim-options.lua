@@ -103,29 +103,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- Custom live_grep function to search in git root
--- local function live_grep_git_root()
---   local git_root = find_git_root()
---   if git_root then
---     require('telescope.builtin').live_grep {
---       search_dirs = { git_root },
---     }
---   end
--- end
 
--- vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
-
-
--- vim.keymap.set('n', '<leader>?', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-
-
--- vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
--- vim.keymap.set('n', '<leader>sT', require('telescope.builtin').builtin, { desc = '[S]earch Select [T]elescope' })
--- vim.keymap.set('n', '<leader>ff', require('telescope.builtin').git_files, { desc = 'Search Git Files' })
--- vim.keymap.set('n', '<leader>fd', require('telescope.builtin').find_files, { desc = 'Search Files Working Directory' })
--- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
--- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
--- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').live_grep, { desc = 'Search Working Directory' })
--- vim.keymap.set('n', '<leader>ss', ':LiveGrepGitRoot<cr>', { desc = 'Search Git Root' })
--- vim.keymap.set('n', '<leader>sD', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<C-e>', ':cnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>', ':cprevious<CR>', { noremap = true, silent = true })
