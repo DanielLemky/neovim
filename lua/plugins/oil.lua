@@ -8,5 +8,8 @@ return {
 
     -- Open parent directory in floating window
     vim.keymap.set("n", "<space>-", require("oil").toggle_float)
+
+    -- Display hidden files
+    vim.keymap.set("n", "<space>oh", require("oil").toggle_hidden)
   end,
 }
