@@ -65,7 +65,7 @@ vim.keymap.set("n", "<leader>b", "G", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>i", "v=", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ip", "ggvG=", { noremap = true, silent = true })
 vim.keymap.set("n", "yp", "gg0vG$y", { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>r', '<Cmd>redo<CR>', { desc = 'redo the last', noremap = true, silent = true })
+vim.keymap.set('n', 'U', '<Cmd>redo<CR>', { desc = 'redo the last', noremap = true, silent = true })
 
 -- Map Option+H to move to the left window
 vim.keymap.set('n', '<leader>wh', '<C-w>h', { noremap = true, silent = true, desc = 'Move pane focus left' })
